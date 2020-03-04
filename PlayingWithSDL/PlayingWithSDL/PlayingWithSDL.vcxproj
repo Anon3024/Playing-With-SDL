@@ -144,6 +144,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="MemoryBlock.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="MemoryPage.h" />
