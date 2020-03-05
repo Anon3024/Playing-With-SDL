@@ -5,10 +5,12 @@ template <typename T>
 class Point2D
 {
 public:
+	//defualt constructor
+	Point2D<T>();
 	//constructor
-	Point2D(T X, T Y);
+	Point2D<T>(T X, T Y);
 	//copy constructor
-	Point2D(const Point2D<T>& copy);
+	Point2D<T>(const Point2D<T>& copy);
 	//assignment operator
 	Point2D<T>& operator=(const Point2D<T>& other);
 	//addition
@@ -28,7 +30,10 @@ public:
 	bool operator==(const Point2D<T>& rhs);
 
 	//output
-	friend std::ostream& operator<<(std::ostream& os, Point2D<T>& p);
+	friend std::ostream& operator<<(std::ostream& os, Point2D<T>& p)
+	{
+		return os << "(" << p.x << ", " << p.y << ")";
+	}
 
 	T x;
 	T y;
@@ -37,9 +42,11 @@ private:
 };
 
 template <typename T>
-class Point3D : Point2D<T>
+class Point3D : public Point2D<T>
 {
 public:
+	//Defualt constructor
+	Point3D<T>();
 	//constructor
 	Point3D(T X, T Y, T Z);
 	//copy constructor
@@ -72,7 +79,10 @@ public:
 	//Comparison
 	bool operator==(const Point3D<T>& rhs);
 
-	friend std::ostream& operator<<(std::ostream& os, Point3D<T>& p);
+	friend std::ostream& operator<<(std::ostream& os, Point3D<T>& p)
+	{
+		return os << "(" << p.x << ", " << p.y << ", " << p.z << ")";
+	}
 
 	T z;
 private:
@@ -80,18 +90,20 @@ private:
 };
 
 template <typename T>
-class Point4D : Point3D<T>
+class Point4D : public Point3D<T>
 {
 public:
+	//defualt constructor
+	Point4D<T>();
 	//constructor
-	Point4D(T X, T Y, T Z, T W);
+	Point4D<T>(T X, T Y, T Z, T W);
 	//copy constructor
-	Point4D(const Point4D<T>& copy);
+	Point4D<T>(const Point4D<T>& copy);
 	//Point 2D constructor
-	Point4D(const Point2D<T>& XY, T Z, T W);
-	Point4D(const Point2D<T>& XY, const Point2D<T>& ZW);
+	Point4D<T>(const Point2D<T>& XY, T Z, T W);
+	Point4D<T>(const Point2D<T>& XY, const Point2D<T>& ZW);
 	//Point 3D constructor
-	Point4D(const Point3D<T>& XYZ, T W);
+	Point4D<T>(const Point3D<T>& XYZ, T W);
 	//Assignment operator
 	Point4D<T>& operator=(const Point4D<T>& other);
 	//Addition
@@ -126,12 +138,22 @@ public:
 	//comparison
 	bool operator==(const Point4D<T>& rhs);
 
-	friend std::ostream& operator<<(std::ostream& os, Point4D<T>& b);
+	friend std::ostream& operator<<(std::ostream& os, Point4D<T>& p)
+	{
+		return os << "(" << p.x << ", " << p.y << ", " << p.z << ", " << p.w << ")";
+	}
 
 	T w;
 private:
 
 };
+
+template <typename T>
+Point2D<T>::Point2D()
+{
+	x = 0;
+	y = 0;
+}
 
 template <typename T>
 Point2D<T>::Point2D(T X, T Y) : x(X), y(Y)
@@ -211,24 +233,35 @@ bool Point2D<T>::operator==(const Point2D<T>& rhs)
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, Point2D<T>& p)
+Point3D<T>::Point3D()
 {
-	return os << "(" << p.x << ", " << p.y << ")";
+	this->x = 0;
+	this->y = 0;
+	this->z = 0;
 }
 
 template <typename T>
-Point3D<T>::Point3D(T X, T Y, T Z) : x(X), y(Y), z(Z)
+Point3D<T>::Point3D(T X, T Y, T Z)
 {
+	this->x = X;
+	this->y = Y;
+	this->z = Z;
 }
 
 template <typename T>
-Point3D<T>::Point3D(const Point2D<T>& XY, T Z) : x(XY.x), y(XY.y), z(Z)
+Point3D<T>::Point3D(const Point2D<T>& XY, T Z)
 {
+	this->x = XY.x;
+	this->y = XY.y;
+	this->z = Z;
 }
 
 template <typename T>
-Point3D<T>::Point3D(const Point3D<T>& copy) : x(copy.x), y(copy.y), z(copy.z)
+Point3D<T>::Point3D(const Point3D<T>& copy)
 {
+	this->x = copy.x;
+	this->y = copy.y;
+	this->z = copy.z;
 }
 
 template <typename T>
@@ -236,7 +269,7 @@ Point3D<T>& Point3D<T>::operator=(const Point3D<T>& other)
 {
 	this->x = other.x;
 	this->y = other.y;
-	this->Z = other.z;
+	this->z = other.z;
 
 	return *this;
 }
@@ -244,13 +277,13 @@ Point3D<T>& Point3D<T>::operator=(const Point3D<T>& other)
 template <typename T>
 Point3D<T>& Point3D<T>::operator+(const Point2D<T>& rhs)
 {
-	return Point3D<T>(x + rhs.x, y + rhs.y, z);
+	return Point3D<T>(this->x + rhs.x, this->y + rhs.y, this->z);
 }
 
 template <typename T>
 Point3D<T>& Point3D<T>::operator+(const Point3D<T>& rhs)
 {
-	return Point3D<T>(x + rhs.x, y + rhs.y, z + rhs.z);
+	return Point3D<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
 }
 
 template <typename T>
@@ -270,13 +303,13 @@ Point3D<T>& Point3D<T>::operator+=(const Point3D<T>& rhs)
 template <typename T>
 Point3D<T>& Point3D<T>::operator-(const Point2D<T>& rhs)
 {
-	return Point3D<T>(x - rhs.x, y - rhs.y, z);
+	return Point3D<T>(this->x - rhs.x, this->y - rhs.y, this->z);
 }
 
 template <typename T>
 Point3D<T>& Point3D<T>::operator-(const Point3D<T>& rhs)
 {
-	return Point3D<T>(x - rhs.x, y - rhs.y, z - rhs.z);
+	return Point3D<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
 }
 
 template <typename T>
@@ -296,13 +329,13 @@ Point3D<T>& Point3D<T>::operator-=(const Point3D<T>& rhs)
 template <typename T>
 Point3D<T>& Point3D<T>::operator*(const Point2D<T>& rhs)
 {
-	return Point3D<T>(x * rhs.x, y * rhs.y, z);
+	return Point3D<T>(this->x * rhs.x, this->y * rhs.y, this->z);
 }
 
 template <typename T>
 Point3D<T>& Point3D<T>::operator*(const Point3D<T>& rhs)
 {
-	return Point3D<T>(x * rhs.x, y * rhs.y, z * rhs.z);
+	return Point3D<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z);
 }
 
 template <typename T>
@@ -316,19 +349,19 @@ template <typename T>
 Point3D<T>& Point3D<T>::operator*=(const Point3D<T>& rhs)
 {
 	*this = *this * rhs;
-	reutrn* this;
+	return* this;
 }
 
 template <typename T>
 Point3D<T>& Point3D<T>::operator/(const Point2D<T>& rhs)
 {
-	return Point3D<T>(x / rhs.x, y / rhs.y, z);
+	return Point3D<T>(this->x / rhs.x, this->y / rhs.y, this->z);
 }
 
 template <typename T>
 Point3D<T>& Point3D<T>::operator/(const Point3D<T>& rhs)
 {
-	return Point3D<T>(x / rhs.x, y / rhs.y, z / rhs.z);
+	return Point3D<T>(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z);
 }
 
 template <typename T>
@@ -348,47 +381,70 @@ Point3D<T>& Point3D<T>::operator/=(const Point3D<T>& rhs)
 template <typename T>
 bool Point3D<T>::operator==(const Point3D<T>& rhs)
 {
-	return (x == rhs.x && y == rhs.y && z == rhs.z);
+	return (this->x == rhs.x && this->y == rhs.y && this->z == rhs.z);
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, Point3D<T>& p)
+Point4D<T>::Point4D()
 {
-	return os << "(" << p.x << ", " << p.y << ", " << p.z << ")";
+	this->x = 0;
+	this->y = 0;
+	this->z = 0;
+	this->w = 0;
 }
 
 template <typename T>
-Point4D<T>::Point4D(T X, T Y, T Z, T W) : x(X), y(Y), z(Z), w(W)
+Point4D<T>::Point4D(T X, T Y, T Z, T W)
 {
+	this->x = X;
+	this->y = Y;
+	this->z = Z;
+	this->w = W;
 }
 
 template <typename T>
-Point4D<T>::Point4D(const Point2D<T>& XY, T Z, T W) : x(XY.x), y(XY.y), z(Z), w(W)
+Point4D<T>::Point4D(const Point2D<T>& XY, T Z, T W)
 {
+	this->x = XY.x;
+	this->y = XY.y;
+	this->z = Z;
+	this->w = W;
 }
 
 template <typename T>
-Point4D<T>::Point4D(const Point2D<T>& XY, const Point2D<T>& ZW) : x(XY.x), y(XY.y), z(ZW.z), w(ZW.w)
+Point4D<T>::Point4D(const Point2D<T>& XY, const Point2D<T>& ZW)
 {
+	this->x = XY.x;
+	this->y = XY.y;
+	this->z = ZW.x;
+	this->w = ZW.y;
 }
 
 template <typename T>
-Point4D<T>::Point4D(const Point3D<T>& XYZ, T W) : x(XYZ.x), y(XYZ.y), z(XYZ.z), w(W)
+Point4D<T>::Point4D(const Point3D<T>& XYZ, T W)
 {
+	this->x = XYZ.x;
+	this->y = XYZ.y;
+	this->z = XYZ.z;
+	this->w = W;
 }
 
 template <typename T>
-Point4D<T>::Point4D(const Point4D<T>& copy) : x(copy.x), y(copy.y), z(copy.z), w(copy.w)
+Point4D<T>::Point4D(const Point4D<T>& copy)
 {
+	this->x = copy.x;
+	this->y = copy.y;
+	this->z = copy.z;
+	this->w = copy.w;
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator=(const Point4D<T>& other)
 {
-	x = other.x;
-	y = other.y;
-	z = other.z;
-	w = other.w;
+	this->x = other.x;
+	this->y = other.y;
+	this->z = other.z;
+	this->w = other.w;
 
 	return *this;
 }
@@ -396,19 +452,19 @@ Point4D<T>& Point4D<T>::operator=(const Point4D<T>& other)
 template <typename T>
 Point4D<T>& Point4D<T>::operator+(const Point2D<T>& rhs)
 {
-	return Point4D<T>(x + rhs.x, y + rhs.y, z, w);
+	return Point4D<T>(this->x + rhs.x, this->y + rhs.y, this->z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator+(const Point3D<T>& rhs)
 {
-	return Point4D<T>(x + rhs.x, y + rhs.y, z + rhs.z, w);
+	return Point4D<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator+(const Point4D<T>& rhs)
 {
-	return Point4D<T>(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
+	return Point4D<T>(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z, this->w + rhs.w);
 }
 
 template <typename T>
@@ -435,19 +491,19 @@ Point4D<T>& Point4D<T>::operator+=(const Point4D<T>& rhs)
 template <typename T>
 Point4D<T>& Point4D<T>::operator-(const Point2D<T>& rhs)
 {
-	return Point4D<T>(x - rhs.x, y - rhs.y, z, w);
+	return Point4D<T>(this->x - rhs.x, this->y - rhs.y, this->z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator-(const Point3D<T>& rhs)
 {
-	return Point4D<T>(x - rhs.x, y - rhs.y, z - rhs.z, w);
+	return Point4D<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator-(const Point4D<T>& rhs)
 {
-	return Point4D<T>(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
+	return Point4D<T>(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z, this->w - rhs.w);
 }
 
 template <typename T>
@@ -474,19 +530,19 @@ Point4D<T>& Point4D<T>::operator-=(const Point4D<T>& rhs)
 template <typename T>
 Point4D<T>& Point4D<T>::operator*(const Point2D<T>& rhs)
 {
-	return Point4D<T>(x * rhs.x, y * rhs.y, z, w);
+	return Point4D<T>(this->x * rhs.x, this->y * rhs.y, this->z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator*(const Point3D<T>& rhs)
 {
-	return Point4D<T>(x * rhs.x, y * rhs.y, z * rhs.z, w);
+	return Point4D<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator*(const Point4D<T>& rhs)
 {
-	return Point4D<T>(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w);
+	return Point4D<T>(this->x * rhs.x, this->y * rhs.y, this->z * rhs.z, this->w * rhs.w);
 }
 
 template <typename T>
@@ -513,19 +569,19 @@ Point4D<T>& Point4D<T>::operator*=(const Point4D<T>& rhs)
 template <typename T>
 Point4D<T>& Point4D<T>::operator/(const Point2D<T>& rhs)
 {
-	return Point4D<T>(x / rhs.x, y / rhs.y, z, w);
+	return Point4D<T>(this->x / rhs.x, this->y / rhs.y, this->z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator/(const Point3D<T>& rhs)
 {
-	return Point4D<T>(x / rhs.x, y / rhs.y, z / rhs.z, w);
+	return Point4D<T>(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z, this->w);
 }
 
 template <typename T>
 Point4D<T>& Point4D<T>::operator/(const Point4D<T>& rhs)
 {
-	return Point4D<T>(x / rhs.x, y / rhs.y, z / rhs.z, w / rhs.w);
+	return Point4D<T>(this->x / rhs.x, this->y / rhs.y, this->z / rhs.z, this->w / rhs.w);
 }
 
 template <typename T>
@@ -552,11 +608,5 @@ Point4D<T>& Point4D<T>::operator/=(const Point4D<T>& rhs)
 template <typename T>
 bool Point4D<T>::operator==(const Point4D<T>& rhs)
 {
-	return (x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w);
-}
-
-template <typename T>
-std::ostream& operator<<(std::ostream& os, Point4D<T>& p)
-{
-	return os << "(" << p.x << ", " << p.y << ", " << p.z << ", " << p.w << ")";
+	return (this->x == rhs.x && this->y == rhs.y && this->z == rhs.z && this->w == rhs.w);
 }

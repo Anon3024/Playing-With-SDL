@@ -141,13 +141,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Lerp.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Lerp.h" />
     <ClInclude Include="MemoryBlock.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="MemoryPage.h" />
+    <ClInclude Include="Points.h" />
     <ClInclude Include="ReferenceCounter.h" />
     <ClInclude Include="SmartPointer.h" />
   </ItemGroup>
