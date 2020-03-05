@@ -141,11 +141,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="Initilize.cpp" />
     <ClCompile Include="Lerp.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Update.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Draw.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Initialize.h" />
     <ClInclude Include="Lerp.h" />
     <ClInclude Include="MemoryBlock.h" />
     <ClInclude Include="MemoryManager.h" />
@@ -153,6 +159,7 @@
     <ClInclude Include="Points.h" />
     <ClInclude Include="ReferenceCounter.h" />
     <ClInclude Include="SmartPointer.h" />
+    <ClInclude Include="Update.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
