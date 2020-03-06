@@ -19,3 +19,6 @@ Point3D<float> green = Point3D<float>(0x5C, 0xD6, 0x5C);
 Point3D<float> CurrentColor = red;
 
 int nextColor = 0;
+
+//Are keys down? [0] = this frame, [1] = last frame
+std::map<SDL_Keycode, std::pair<bool, bool>> KEYS;

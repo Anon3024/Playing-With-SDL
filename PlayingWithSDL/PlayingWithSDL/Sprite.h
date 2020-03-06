@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Points.h"
+#include "Keys.h"
 
 //A Picture to render. Origin defaults to top left
 class Sprite

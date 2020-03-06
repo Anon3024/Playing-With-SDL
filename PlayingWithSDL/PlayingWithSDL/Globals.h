@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include <memory>
 #include "Lerp.h"
+#include "Keys.h"
 
 //Window Dimensions
 #define WINDOW_WIDTH 640
@@ -11,6 +12,7 @@
 
 class Sprite;
 
+//Globals.cpp
 extern SDL_Window* g_Window;
 extern SDL_Surface* BMP;
 extern std::vector<std::shared_ptr<Sprite>> g_Sprites;
@@ -24,3 +26,5 @@ extern Point3D<float> CurrentColor;
 extern int nextColor;
 
 extern bool quit;
+
+extern std::map<SDL_Keycode, std::pair<bool, bool>> KEYS;

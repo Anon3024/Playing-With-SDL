@@ -68,6 +68,23 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
+	if (KeyDown(SDLK_UP))
+		SetLocation(location.x, location.y - 1);
+	if (KeyDown(SDLK_DOWN))
+		SetLocation(location.x, location.y + 1);
+	if (KeyDown(SDLK_LEFT))
+		SetLocation(location.x - 1, location.y);
+	if (KeyDown(SDLK_RIGHT))
+		SetLocation(location.x + 1, location.y);
+	if (KeyDown(SDLK_w))
+		SetHeight(height + 1);
+	if (KeyDown(SDLK_s))
+		SetHeight(height - 1);
+	if (KeyDown(SDLK_a))
+		SetWidth(width - 1);
+	if (KeyDown(SDLK_d))
+		SetWidth(width + 1);
+
 	if (dirty)
 	{
 		Rect.x = location.x;

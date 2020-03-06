@@ -24,4 +24,14 @@ void init()
 			throw e;
 		}
 	}
+
+	//Set up Keys will have to do all of them going forward
+	KEYS[SDLK_w] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_a] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_s] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_d] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_UP] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_LEFT] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_DOWN] = std::pair<bool, bool>(false, false);
+	KEYS[SDLK_RIGHT] = std::pair<bool, bool>(false, false);
 }
