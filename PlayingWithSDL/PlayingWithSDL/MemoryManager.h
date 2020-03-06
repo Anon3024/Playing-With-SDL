@@ -70,7 +70,7 @@ void MemoryManager<T>::DeallocateMemory(T* block)
 {
 	int PagesTried = 0;
 	//dont try to delete null duh
-	if (block == nullptr || block == NULL)
+	if (block == nullptr)
 		return;
 	//Walk the list of pages, and see we can delete the block.
 	for (std::pair<int, Page<T>*> p : Pages)

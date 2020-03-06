@@ -17,23 +17,24 @@
 #include "Update.h"
 #include "Draw.h"
 
+#include "Close.h"
+#include "Sprite.h"
+
 
 void main()
 {
+	Sprite* emptySprite = new Sprite();
+
 	init();
-	
+
 	//pause the program
 	while (!quit) 
 	{
 		Update();
 		Draw();
 	};
-			
-	//Destory our window
-	SDL_DestroyWindow(g_Window);
 
-	//Quit SDL
-	SDL_Quit();
+	Close();
 
 	return;
 }

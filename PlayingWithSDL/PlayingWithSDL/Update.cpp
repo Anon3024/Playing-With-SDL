@@ -14,4 +14,9 @@ void Update()
 			//close the window.
 			quit = true;
 	}
+
+	for (std::shared_ptr<Sprite> sprite : g_Sprites)
+	{
+		sprite->Update();
+	}
 }

@@ -4,18 +4,30 @@
 
 void Draw()
 {
-	if (BMP == nullptr)
+	//filling the background with some colors
+	switch (nextColor)
 	{
-		BMP = SDL_LoadBMP("BMP.bmp");
-		if (BMP == nullptr)
-		{
-			std::cout << "Error! Couldn't load file!" << std::endl;
-			std::cout << SDL_GetError() << std::endl;
-			std::string e = SDL_GetError();
-			throw e;
-		}
+	case 0:
+		CurrentColor = Lerp(CurrentColor, blue, 0.0006);
+		if (isAbout(CurrentColor, blue))
+			++nextColor;
+		break;
+	case 1:
+		CurrentColor = Lerp(CurrentColor, green, 0.0006);
+		if (isAbout(CurrentColor, green))
+			++nextColor;
+		break;
+	case 2:
+		CurrentColor = Lerp(CurrentColor, red, 0.0006);
+		if (isAbout(CurrentColor, red))
+			nextColor = 0;
 	}
 	SDL_Surface* windowSurface = SDL_GetWindowSurface(g_Window);
-	SDL_BlitSurface(BMP, NULL, windowSurface, NULL);
+	SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, CurrentColor.x, CurrentColor.y, CurrentColor.z));
+
+	for (std::shared_ptr<Sprite> sprite : g_Sprites)
+	{
+		sprite->Draw();
+	}
 	SDL_UpdateWindowSurface(g_Window);
 }

@@ -20,9 +20,11 @@ public:
 	SmartPointer<T>& operator=(const SmartPointer<T>& other);
 	SmartPointer<T>& operator=(T* const& other);
 	bool operator==(const T* other);
+	bool operator!=(const T* other);
 
 	operator T* () const;
 
+	void Destroy();
 	int GetReferences();
 private:
 	T* Data;
@@ -143,7 +145,30 @@ bool SmartPointer<T>::operator==(const T* other)
 }
 
 template <typename T>
+bool SmartPointer<T>::operator!=(const T* other)
+{
+	return !this->Data == other;
+}
+
+template <typename T>
 SmartPointer<T>::operator T* () const
 {
 	return this->Data;
+}
+
+template <typename T>
+void SmartPointer<T>::Destroy()
+{
+	//decrease the reference counter
+	this->Counter->ReleseCount();
+	if (Counter->GetCount() == 0)
+	{
+		//do the deletion process here
+		delete Counter;
+		if (Data != nullptr)
+			Manager->DeallocateMemory(Data);
+	}
+
+	Data = nullptr;
+	Counter = nullptr;
 }
