@@ -22,12 +22,14 @@ void Draw()
 		if (isAbout(CurrentColor, red))
 			nextColor = 0;
 	}
-	SDL_Surface* windowSurface = SDL_GetWindowSurface(g_Window);
-	SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, CurrentColor.x, CurrentColor.y, CurrentColor.z));
-
+	SDL_SetRenderDrawColor(g_Renderer, CurrentColor.x, CurrentColor.y, CurrentColor.z, 255);
+	//SDL_Surface* windowSurface = SDL_GetWindowSurface(g_Window);
+	//SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, CurrentColor.x, CurrentColor.y, CurrentColor.z));
+	SDL_RenderClear(g_Renderer);
 	for (std::shared_ptr<Sprite> sprite : g_Sprites)
 	{
 		sprite->Draw();
 	}
-	SDL_UpdateWindowSurface(g_Window);
+	SDL_RenderPresent(g_Renderer);
+	//SDL_UpdateWindowSurface(g_Window);
 }

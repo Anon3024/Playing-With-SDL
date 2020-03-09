@@ -7,7 +7,9 @@ void Close()
 	{
 		g_Sprites.erase(g_Sprites.begin());
 	}
-	//Destory our window
+	//Destroy our renderer
+	SDL_DestroyRenderer(g_Renderer);
+	//Destroy our window
 	SDL_DestroyWindow(g_Window);
 
 	//Quit SDL

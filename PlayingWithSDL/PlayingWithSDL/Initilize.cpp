@@ -8,8 +8,16 @@ void init()
 	//intializing SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		std::cout << "Error! Could not initailize SDL Video!" << std::endl;
+		std::cout << "Error! Could not initialize SDL Video!" << std::endl;
 		std::string e = SDL_GetError();
+		throw e;
+	}
+	//initialize SDL image
+	int IMG_Flags = IMG_INIT_PNG | IMG_INIT_JPG;
+	if ((IMG_Init(IMG_Flags) & IMG_Flags) != IMG_Flags)
+	{
+		std::cout << "Error! Could not initialize SDL Image!" << std::endl;
+		std::string e(IMG_GetError());
 		throw e;
 	}
 	//If we didn't error out, make the window
@@ -21,6 +29,14 @@ void init()
 		{
 			std::cout << "Error! Could not make window!" << std::endl;
 			std::string e = SDL_GetError();
+			throw e;
+		}
+		//create our renderer
+		g_Renderer = SDL_CreateRenderer(g_Window, -1, SDL_RENDERER_ACCELERATED);
+		if (g_Renderer == nullptr)
+		{
+			std::cout << "Error! Could not initialize Renderer!" << std::endl;
+			std::string e(SDL_GetError());
 			throw e;
 		}
 	}

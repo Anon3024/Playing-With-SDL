@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL_image.h>
 #include "Globals.h"
 #include "Points.h"
 #include "Keys.h"
@@ -24,10 +25,12 @@ public:
 	void SetLocation(Point2D<float> loc);
 	void SetLocation(int x, int y);
 
+	//this will evenutally allow for tinting a sprite
+	Point3D<Uint8> Color;
 private:
 	SDL_Rect Rect;
 	std::string Path;
-	SDL_Surface* Surface;
+	SDL_Texture* Texture;
 
 	int height;
 	int width;

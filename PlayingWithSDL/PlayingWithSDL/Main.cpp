@@ -23,9 +23,16 @@
 
 void main()
 {
-	init();
-
-	Sprite* emptySprite = new Sprite();
+	try
+	{
+		init();
+	}
+	catch (std::string e)
+	{
+		std::cout << e << std::endl;
+		return;
+	}
+	Sprite* emptySprite = new Sprite("Empty.png");
 
 	//pause the program
 	while (!quit) 

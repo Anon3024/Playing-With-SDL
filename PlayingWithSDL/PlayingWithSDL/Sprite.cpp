@@ -3,7 +3,7 @@
 Sprite::Sprite(std::string path) : Path(path)
 {
 	//Load our image into our surface
-	Surface = nullptr;
+	Texture = nullptr;
 	LoadImage(Path);
 
 	location.x = 0;
@@ -32,7 +32,10 @@ Sprite::Sprite()
 	Rect.w = width;
 	Rect.h = height;
 
-	Surface = nullptr;
+	//set our color to white
+	Color = Point3D<Uint8>(0xFF, 0xFF, 0xFF);
+
+	Texture = nullptr;
 	LoadImage(Path);
 
 	dirty = false;
@@ -49,8 +52,34 @@ void Sprite::LoadImage(std::string path)
 	//Load our image into an optimized surface
 	SDL_Surface* tempSurface = nullptr;
 
-	//Load the BMP into our surface
-	tempSurface = SDL_LoadBMP(path.c_str());
+	std::string extension = GetFileExtention(path);
+
+	//if we are loading a bmp
+	if (extension == "bmp")
+	{
+		//Load the BMP into our surface
+		tempSurface = SDL_LoadBMP(path.c_str());
+		if (tempSurface == nullptr)
+		{
+			std::cout << "Error! Could not load file at path: " << Path << std::endl;
+			std::string e(SDL_GetError());
+			std::cout << "Error is: " << e << std::endl;
+			throw e;
+		}
+	}
+	//otherwise, if loading a png or jpg
+	if (extension == "jpg" || extension == "jpeg" || extension == "png")
+	{
+		tempSurface = IMG_Load(path.c_str());
+		if (tempSurface == nullptr)
+		{
+			std::cout << "Error! Could not load file at path: " << Path << std::endl;
+			std::string e(IMG_GetError());
+			std::cout << "Error is: " << e << std::endl;
+			throw e;
+		}
+	}
+	
 	if (tempSurface == nullptr)
 	{
 		std::cout << "Error! Could not load file at path: " << Path << std::endl;
@@ -58,25 +87,37 @@ void Sprite::LoadImage(std::string path)
 		std::cout << "Error is: " << e << std::endl;
 		throw e;
 	}
-	Surface = SDL_ConvertSurface(tempSurface, g_WindowSurface->format, 0);
-	if (Surface == nullptr)
+	//SDL_PixelFormat_RGBA32 gives us tranparancy
+	tempSurface = SDL_ConvertSurfaceFormat(tempSurface, SDL_PIXELFORMAT_RGBA32, 0);
+	if (tempSurface == nullptr)
 	{
 		std::cout << "Error! Could not optimize image!" << std::endl;
 		std::string e(SDL_GetError());
 		std::cout << "Error is:" << e << std::endl;
 		throw e;
 	}
+	//create a texture from out tempSurface
+	Texture = SDL_CreateTextureFromSurface(g_Renderer, tempSurface);
+	if (Texture == nullptr)
+	{
+		std::cout << "Error! Could not create Texture!" << std::endl;
+		std::string e(SDL_GetError());
+		std::cout << "Error is: " << e << std::endl;
+		throw e;
+	}
+
+	width = tempSurface->w;
+	height = tempSurface->h;
 
 	SDL_FreeSurface(tempSurface);
 
-	width = Surface->w;
-	height = Surface->h;
+	SDL_SetTextureBlendMode(Texture, SDL_BLENDMODE_BLEND);
 }
 
 Sprite::~Sprite()
 {
-	if(Surface != nullptr)
-		SDL_FreeSurface(Surface);
+	if(Texture != nullptr)
+		SDL_DestroyTexture(Texture);
 }
 
 void Sprite::Update()
@@ -114,7 +155,9 @@ void Sprite::Update()
 void Sprite::Draw()
 {
 	//blit our image to the screen
-	SDL_BlitScaled(Surface, NULL, SDL_GetWindowSurface(g_Window), &Rect);
+	//SDL_BlitScaled(Surface, NULL, SDL_GetWindowSurface(g_Window), &Rect);
+	//Render a texture and not a surface you fool
+	SDL_RenderCopy(g_Renderer, Texture, NULL, &Rect);
 }
 
 int Sprite::GetHeight()

@@ -1,7 +1,10 @@
 #include "Globals.h"
+#include <algorithm>
+#include <cctype>
 
 SDL_Window* g_Window = nullptr;
 SDL_Surface* g_WindowSurface = nullptr;
+SDL_Renderer* g_Renderer = nullptr;
 
 std::vector<std::shared_ptr<Sprite>> g_Sprites;
 
@@ -23,3 +26,11 @@ int nextColor = 0;
 
 //Are keys down? [0] = this frame, [1] = last frame
 std::map<SDL_Keycode, std::pair<bool, bool>> KEYS;
+
+//Gets the file extension of a path
+std::string GetFileExtention(std::string path)
+{
+	std::string extension = path.substr(path.find_last_of('.') + 1);
+	std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c) { return std::tolower(c); });
+	return extension;
+}
