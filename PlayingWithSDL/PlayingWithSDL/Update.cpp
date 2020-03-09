@@ -28,11 +28,6 @@ void Update()
 		}
 	}
 
-	for (std::pair<SDL_Keycode, std::pair<bool, bool>> k : KEYS)
-	{
-		std::cout << k.second.first << "," << k.second.second << std::endl;
-	}
-
 	for (std::shared_ptr<Sprite> sprite : g_Sprites)
 	{
 		sprite->Update();

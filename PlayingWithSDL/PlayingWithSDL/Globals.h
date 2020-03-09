@@ -14,7 +14,7 @@ class Sprite;
 
 //Globals.cpp
 extern SDL_Window* g_Window;
-extern SDL_Surface* BMP;
+extern SDL_Surface* g_WindowSurface;
 extern std::vector<std::shared_ptr<Sprite>> g_Sprites;
 
 extern Point3D<float> red;

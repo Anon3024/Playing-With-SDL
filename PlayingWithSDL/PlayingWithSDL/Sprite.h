@@ -17,11 +17,11 @@ public:
 
 	int GetHeight();
 	int GetWidth();
-	Point2D<int> GetLocation();
+	Point2D<float> GetLocation();
 
 	void SetWidth(int w);
 	void SetHeight(int h);
-	void SetLocation(Point2D<int> loc);
+	void SetLocation(Point2D<float> loc);
 	void SetLocation(int x, int y);
 
 private:
@@ -31,7 +31,7 @@ private:
 
 	int height;
 	int width;
-	Point2D<int> location;
+	Point2D<float> location;
 
 	bool dirty;
 };

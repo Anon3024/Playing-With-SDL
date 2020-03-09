@@ -46,15 +46,28 @@ void Sprite::LoadImage(std::string path)
 	if (path != Path)
 		Path = path;
 
+	//Load our image into an optimized surface
+	SDL_Surface* tempSurface = nullptr;
+
 	//Load the BMP into our surface
-	Surface = SDL_LoadBMP(path.c_str());
-	if (Surface == nullptr)
+	tempSurface = SDL_LoadBMP(path.c_str());
+	if (tempSurface == nullptr)
 	{
 		std::cout << "Error! Could not load file at path: " << Path << std::endl;
 		std::string e(SDL_GetError());
-		std::cout << "Error is: " << e;
+		std::cout << "Error is: " << e << std::endl;
 		throw e;
 	}
+	Surface = SDL_ConvertSurface(tempSurface, g_WindowSurface->format, 0);
+	if (Surface == nullptr)
+	{
+		std::cout << "Error! Could not optimize image!" << std::endl;
+		std::string e(SDL_GetError());
+		std::cout << "Error is:" << e << std::endl;
+		throw e;
+	}
+
+	SDL_FreeSurface(tempSurface);
 
 	width = Surface->w;
 	height = Surface->h;
@@ -68,18 +81,20 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
+	float Speed = 1; 
+
 	if (KeyDown(SDLK_UP))
-		SetLocation(location.x, location.y - 1);
+		SetLocation(location.x, location.y - (1 * Speed));
 	if (KeyDown(SDLK_DOWN))
-		SetLocation(location.x, location.y + 1);
+		SetLocation(location.x, location.y + (1 * Speed));
 	if (KeyDown(SDLK_LEFT))
-		SetLocation(location.x - 1, location.y);
+		SetLocation(location.x - (1 * Speed), location.y);
 	if (KeyDown(SDLK_RIGHT))
-		SetLocation(location.x + 1, location.y);
+		SetLocation(location.x + (1 * Speed), location.y);
 	if (KeyDown(SDLK_w))
-		SetHeight(height + 1);
-	if (KeyDown(SDLK_s))
 		SetHeight(height - 1);
+	if (KeyDown(SDLK_s))
+		SetHeight(height + 1);
 	if (KeyDown(SDLK_a))
 		SetWidth(width - 1);
 	if (KeyDown(SDLK_d))
@@ -99,7 +114,7 @@ void Sprite::Update()
 void Sprite::Draw()
 {
 	//blit our image to the screen
-	SDL_BlitSurface(Surface, NULL, SDL_GetWindowSurface(g_Window), &Rect);
+	SDL_BlitScaled(Surface, NULL, SDL_GetWindowSurface(g_Window), &Rect);
 }
 
 int Sprite::GetHeight()
@@ -112,7 +127,7 @@ int Sprite::GetWidth()
 	return width;
 }
 
-Point2D<int> Sprite::GetLocation()
+Point2D<float> Sprite::GetLocation()
 {
 	return location;
 }
@@ -129,7 +144,7 @@ void Sprite::SetWidth(int w)
 	dirty = true;
 }
 
-void Sprite::SetLocation(Point2D<int> loc)
+void Sprite::SetLocation(Point2D<float> loc)
 {
 	location = loc;
 	dirty = true;

@@ -23,9 +23,9 @@
 
 void main()
 {
-	Sprite* emptySprite = new Sprite();
-
 	init();
+
+	Sprite* emptySprite = new Sprite();
 
 	//pause the program
 	while (!quit) 

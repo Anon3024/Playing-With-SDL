@@ -25,6 +25,8 @@ void init()
 		}
 	}
 
+	g_WindowSurface = SDL_GetWindowSurface(g_Window);
+
 	//Set up Keys will have to do all of them going forward
 	KEYS[SDLK_w] = std::pair<bool, bool>(false, false);
 	KEYS[SDLK_a] = std::pair<bool, bool>(false, false);

@@ -1,6 +1,7 @@
 #include "Globals.h"
 
 SDL_Window* g_Window = nullptr;
+SDL_Surface* g_WindowSurface = nullptr;
 
 std::vector<std::shared_ptr<Sprite>> g_Sprites;
 
