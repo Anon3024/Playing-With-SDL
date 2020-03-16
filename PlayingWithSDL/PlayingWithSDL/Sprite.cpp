@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(std::string path) : Path(path)
+Sprite::Sprite(std::string path) : Component("Sprite"), Path(path)
 {
 	//Load our image into our surface
 	Texture = nullptr;
@@ -17,9 +17,12 @@ Sprite::Sprite(std::string path) : Path(path)
 	dirty = false;
 
 	g_Sprites.push_back(std::shared_ptr<Sprite>(this));
+
+	//initalize, move this to on level load later
+	this->Initialize();
 }
 
-Sprite::Sprite()
+Sprite::Sprite() : Component("Sprite")
 {
 	//set our path to empty
 	Path = "Empty.bmp";
@@ -41,6 +44,9 @@ Sprite::Sprite()
 	dirty = false;
 
 	g_Sprites.push_back(std::shared_ptr<Sprite>(this));
+
+	//initalize, move this to on level load later
+	this->Initialize();
 }
 
 void Sprite::LoadImage(std::string path)
@@ -120,7 +126,12 @@ Sprite::~Sprite()
 		SDL_DestroyTexture(Texture);
 }
 
-void Sprite::Update()
+void Sprite::Initialize()
+{
+	connect(new Message("Update"), Update);
+}
+
+void Sprite::Update(Message* update)
 {
 	float Speed = 1; 
 

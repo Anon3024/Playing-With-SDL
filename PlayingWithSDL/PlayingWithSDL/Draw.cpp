@@ -1,4 +1,6 @@
 #include "Draw.h"
+#include "Lerp.h"
+#include "Sprite.h"
 #include <string>
 #include <iostream>
 

@@ -1,4 +1,6 @@
 #include "Close.h"
+#include "Globals.h"
+
 
 void Close()
 {

@@ -1,12 +1,16 @@
 #include "Globals.h"
 #include <algorithm>
 #include <cctype>
+#include <SDL_image.h>
+#include "Object.h"
 
 SDL_Window* g_Window = nullptr;
 SDL_Surface* g_WindowSurface = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
 
 std::vector<std::shared_ptr<Sprite>> g_Sprites;
+
+std::vector<std::shared_ptr<Object>> g_ActiveObjects;
 
 bool quit = false;
 

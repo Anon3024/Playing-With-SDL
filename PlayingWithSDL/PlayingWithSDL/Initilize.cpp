@@ -2,6 +2,7 @@
 #include "Initialize.h"
 #include "Globals.h"
 #include <iostream>
+#include <SDL_image.h>
 
 void init()
 {

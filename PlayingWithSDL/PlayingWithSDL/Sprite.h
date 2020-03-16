@@ -1,19 +1,23 @@
 #pragma once
+#pragma message ("Sprite Defined")
 #include <SDL_image.h>
 #include "Globals.h"
 #include "Points.h"
 #include "Keys.h"
+#include "Component.h"
 
 //A Picture to render. Origin defaults to top left
-class Sprite
+class Sprite : public Component
 {
 public:
 	Sprite(std::string path);
 	Sprite();
 	~Sprite();
 
+	void Initialize();
+
 	void LoadImage(std::string path);
-	void Update();
+	void Update(Message* update);
 	void Draw();
 
 	int GetHeight();

@@ -1,6 +1,7 @@
 #include "Update.h"
 #include "Globals.h"
 #include "Keys.h"
+#include "Object.h"
 
 void Update()
 {
@@ -28,8 +29,16 @@ void Update()
 		}
 	}
 
-	for (std::shared_ptr<Sprite> sprite : g_Sprites)
+	for (std::shared_ptr<Object> object : g_ActiveObjects)
 	{
-		sprite->Update();
+		//push the update message to all of our active objects
+		object->DispatchMessage(new Message("Update"));
+		//then process the messages on all our active objects
+		object->ProcessMessageQueue();
 	}
+
+	//for (std::shared_ptr<Sprite> sprite : g_Sprites)
+	//{
+	//	sprite->Update();
+	//}
 }

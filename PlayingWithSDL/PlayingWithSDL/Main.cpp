@@ -19,10 +19,12 @@
 
 #include "Close.h"
 #include "Sprite.h"
+#include "Object.h"
 
 
 void main()
 {
+
 	try
 	{
 		init();
@@ -32,7 +34,9 @@ void main()
 		std::cout << e << std::endl;
 		return;
 	}
-	Sprite* emptySprite = new Sprite("Empty.png");
+	std::shared_ptr<Object> object(new Object("Sprite"));
+	object->AddComponent(std::shared_ptr<Sprite>(new Sprite));
+	g_ActiveObjects.push_back(object);
 
 	//pause the program
 	while (!quit) 
